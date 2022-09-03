@@ -10,7 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "NetworkPlus"
+rootProject.name = "Http-ktx"
 include ':app'
+include ':lib_http_ktx'
