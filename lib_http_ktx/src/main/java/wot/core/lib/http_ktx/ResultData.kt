@@ -34,9 +34,10 @@ data class ResultData<T>(
         /**
          * 错误
          * @Tips 建议实现 IApiBusinessErrorAdapter 处理业务错误, 实现 IApiExceptionAdapter 处理异常
+         * @param data 兼容某些接口成功和失败的 msg 都放在 data 的情况
          */
-        fun <T> error(error: ApiException?): ResultData<T> {
-            return ResultData(RequestStatus.ERROR, null, false, error)
+        fun <T> error(error: ApiException?, data: Response<T>?): ResultData<T> {
+            return ResultData(RequestStatus.ERROR, data, false, error)
         }
 
         /**

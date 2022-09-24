@@ -2,7 +2,7 @@
 [![API](https://img.shields.io/badge/API-21%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=21)
 
 # Http-ktx
-> 一款由`Retrofit + 协程配合 LiveData`封装的网络请求框架
+> DSL网络请求框架
 
 #### 第一步 先写个 `ApiService`
 ``` kotlin
@@ -10,11 +10,11 @@
 suspend fun getBanner(): Response<List<Banner>>
 ```
 
-#### 第二步 创建 `Service`
+#### 第二步 创建 `Service`实例
 ``` kotlin
 val apiService: ApiService by lazy {
     HttpBuilder.createService(
-        "https://home.meishichina.com",
+        "https://www.wanandroid.com",
         okClientAction = {
             // OkHttpClient.Builder
         },
@@ -25,12 +25,12 @@ val apiService: ApiService by lazy {
 }
 ```
 
-#### 第三步 丝滑全量开启!!!
+#### 第三步 数据获取
 ```kotlin
-val requestLiveData = viewModelScope.requestLiveData<List<Banner>> {
+ val liveData = viewModelScope.requestData {
             // 请求网络
-            api { 
-                apiService.getBanner() 
+            api {
+                wanAndroidService.getBanner()
             }
 
             // 加载数据缓存
@@ -64,5 +64,5 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```android
-implementation 'com.github.WotCore:Http-ktx:v1.0.0'
+implementation 'com.github.WotCore:Http-ktx:v1.0.1'
 ```

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import wot.core.lib.http_ktx.ResultData
 import wot.core.lib.http_ktx.RequestStatus
-import wot.core.lib.http_ktx.requestLiveData
+import wot.core.lib.http_ktx.requestData
 import wot.demo.http_ktx._cnodejs.Topics
 import wot.demo.http_ktx._cnodejs.cnodejsService
 import wot.demo.http_ktx._mei_shi_china.Recipes
@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
 
     fun getBanner() {
         // viewModelScope 是系统扩展提供的 VideModel 的协程作用域
-        val requestLiveData = viewModelScope.requestLiveData<List<Banner>> {
+        val liveData = viewModelScope.requestData<List<Banner>> {
             // 请求网络
             api { wanAndroidService.getBanner() }
 
@@ -54,10 +54,10 @@ class MainViewModel : ViewModel() {
         }
 
         // 监听数据变化
-        _bannerLiveData.addSource(requestLiveData) { data ->
+        _bannerLiveData.addSource(liveData) { data ->
             // 网络请求完毕后 及时移除 liveData 监听
             if (data.requestStatus == RequestStatus.DONE) {
-                _bannerLiveData.removeSource(requestLiveData)
+                _bannerLiveData.removeSource(liveData)
             }
             // 发送数据
             _bannerLiveData.value = data
@@ -73,7 +73,7 @@ class MainViewModel : ViewModel() {
 
     fun getRecipes() {
         // viewModelScope 是系统扩展提供的 VideModel 的协程作用域
-        val requestLiveData = viewModelScope.requestLiveData<List<Recipes>> {
+        val liveData = viewModelScope.requestData<List<Recipes>> {
             // 请求网络
             api { meiShiChinaService.getRecipes() }
 
@@ -85,10 +85,10 @@ class MainViewModel : ViewModel() {
         }
 
         // 监听数据变化
-        _recipesLiveData.addSource(requestLiveData) { data ->
+        _recipesLiveData.addSource(liveData) { data ->
             // 网络请求完毕后 及时移除 liveData 监听
             if (data.requestStatus == RequestStatus.DONE) {
-                _recipesLiveData.removeSource(requestLiveData)
+                _recipesLiveData.removeSource(liveData)
             }
             // 发送数据
             _recipesLiveData.value = data
@@ -104,7 +104,7 @@ class MainViewModel : ViewModel() {
 
     fun getTopics() {
         // viewModelScope 是系统扩展提供的 VideModel 的协程作用域
-        val requestLiveData = viewModelScope.requestLiveData<List<Topics>> {
+        val liveData = viewModelScope.requestData<List<Topics>> {
             // 请求网络
             api { cnodejsService.getTopics() }
 
@@ -116,10 +116,10 @@ class MainViewModel : ViewModel() {
         }
 
         // 监听数据变化
-        _topicsLiveData.addSource(requestLiveData) { data ->
+        _topicsLiveData.addSource(liveData) { data ->
             // 网络请求完毕后 及时移除 liveData 监听
             if (data.requestStatus == RequestStatus.DONE) {
-                _topicsLiveData.removeSource(requestLiveData)
+                _topicsLiveData.removeSource(liveData)
             }
             // 发送数据
             _topicsLiveData.value = data

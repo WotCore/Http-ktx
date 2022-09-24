@@ -9,13 +9,13 @@ import kotlinx.coroutines.withContext
 
 /**
  * @Sub 网络
- * @Say 不要问为什么! 为就是懒, 不想写那么多代码!
+ * @Say 不要问为什么! 问就是懒, 不想写那么多代码!
  * @Description 网络请求扩展类
  * @Author Wot.Yang
  * @CreateDate 2022/8/15
  * @Organization: Wot
  */
-fun <T> CoroutineScope.requestLiveData(
+fun <T> CoroutineScope.requestData(
     /**
      * 事件函数
      */
@@ -67,13 +67,13 @@ fun <T> CoroutineScope.requestLiveData(
             is ApiResponse.ApiBusinessErrorResponse -> {
                 val apiException = HttpBuilder.apiBusinessErrorAdapter?.convert(apiResponse.throwable)
                 // 给请求方发送一份
-                emit(ResultData.error<T>(apiException ?: apiResponse.throwable))
+                emit(ResultData.error<T>(apiException ?: apiResponse.throwable, apiResponse.body))
             }
             // 异常处理
             is ApiResponse.ApiExceptionResponse -> {
                 val apiException = HttpBuilder.apiExceptionAdapter!!.convert(apiResponse.throwable)
                 // 给请求方发送一份
-                emit(ResultData.error<T>(apiException))
+                emit(ResultData.error<T>(apiException, null))
             }
         }
         emit(ResultData.done(null))
